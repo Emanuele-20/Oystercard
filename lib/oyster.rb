@@ -11,7 +11,7 @@ class Oystercard
 
   def top_up(top_up_value)
     if (@balance + top_up_value) > MAXBALANCE
-   raise RuntimeError 
+   raise RuntimeError
     end
    @balance += top_up_value
   end
@@ -21,13 +21,20 @@ class Oystercard
   end
 
   def in_journey?
+    if @injourney == true
+      true
+    else
+      false
+    end
   end
 
   def touch_in
+    @injourney = true
   end
 
   def touch_out
-  end 
+    @injourney = false
+  end
 
 
   # private

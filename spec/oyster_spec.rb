@@ -36,29 +36,48 @@ describe Oystercard do
 
    end
 
-  context 'in_journey?' do 
+  context 'in_journey?' do
     it 'knows of a card is currently in use' do
       expect(subject).to respond_to(:in_journey?)
     end
   end
 
   context 'able to touch_in' do
-    it 'allows a card to touch in' do 
+    it 'allows a card to touch in' do
       expect(subject).to respond_to(:touch_in)
-    end 
-  end 
+    end
+    it 'it knows if card is in use' do
+      expect(subject.touch_in).to eq true
+    end
+  end
 
   context 'able to touch out' do
-    it 'allows a card to touch out' do 
+    it 'allows a card to touch out' do
       expect(subject).to respond_to(:touch_out)
     end
-  end  
-
-  context 'use instance variable to know if your in a journey or not' do 
-    it 'reads if a card has been touched in or out' do 
-      expect(subject.instance_variable_get :@injourney).to eq false
-    end 
+    it 'it knows if card has been touch_out' do
+      expect(subject.touch_out).to eq false
+    end
   end
+
+  context 'use instance variable to know if your in a journey or not' do
+    it 'reads if a card has been touched in or out' do
+      expect(subject.instance_variable_get :@injourney).to eq false
+    end
+  end
+  context 'knows if the card is in the journey or not' do
+    it 'touch in' do
+    card = Oystercard.new
+    card.touch_in
+      expect(card.in_journey?).to eq(true)
+   end
+    it 'touch out' do
+      card = Oystercard.new
+      card.touch_out
+        expect(card.in_journey?).to eq(false)
+    end
+  end
+
 end
 
 
