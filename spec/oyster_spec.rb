@@ -47,7 +47,11 @@ describe Oystercard do
       expect(subject).to respond_to(:touch_in)
     end
     it 'it knows if card is in use' do
-      expect(subject.touch_in).to eq true
+      subject.top_up(1)
+      expect(subject.touch_in).to eq(true)
+    end
+    it 'does not allow to touch in if balance less than £1' do
+      expect{ subject.touch_in }.to raise_error("please top up card")
     end
   end
 
@@ -56,18 +60,19 @@ describe Oystercard do
       expect(subject).to respond_to(:touch_out)
     end
     it 'it knows if card has been touch_out' do
-      expect(subject.touch_out).to eq false
+      expect(subject.touch_out).to eq(false)
     end
   end
 
   context 'use instance variable to know if your in a journey or not' do
     it 'reads if a card has been touched in or out' do
-      expect(subject.instance_variable_get :@injourney).to eq false
+      expect(subject.instance_variable_get :@injourney).to eq(false)
     end
   end
   context 'knows if the card is in the journey or not' do
     it 'touch in' do
     card = Oystercard.new
+    card.top_up(1)
     card.touch_in
       expect(card.in_journey?).to eq(true)
    end
