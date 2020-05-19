@@ -24,10 +24,10 @@ describe Oystercard do
 
 
     context 'deduct' do
-      it 'subject respond to deduct method' do
+     xit 'subject respond to deduct method' do
         expect(subject).to respond_to(:deduct).with(1).argument
     end
-     it 'return new balance when we deduct something from it' do
+     xit 'return new balance when we deduct something from it' do
        subject.top_up(4)
        expect{subject.deduct 1}.to change{subject.balance}. by -1
      end
@@ -60,9 +60,17 @@ describe Oystercard do
       expect(subject).to respond_to(:touch_out)
     end
     it 'it knows if card has been touch_out' do
-      expect(subject.touch_out).to eq(false)
+      card = Oystercard.new
+      expect(card.touch_out).to eq(false)
     end
+    it 'charge the fair' do
+      card = Oystercard.new
+      card.top_up(4)
+      card.touch_in
+      expect { card.touch_out }.to change { card.balance }. by(-Oystercard::FAIR)
   end
+  end
+  #  Write a test that uses expect {}.to change{}.by() syntax to check that a charge is made on touch out.
 
   context 'use instance variable to know if your in a journey or not' do
     it 'reads if a card has been touched in or out' do
@@ -84,6 +92,13 @@ describe Oystercard do
   end
 
 end
+
+#  Write a test that uses expect {}.to change{}.by() syntax to check that a charge is made on touch out.
+#  Update the touch_out method to make the test pass
+#  Make '#deduct' a private method
+#  Keep the code DRY
+
+
 
 
 # =being
