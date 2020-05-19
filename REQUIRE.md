@@ -44,3 +44,14 @@ I need my fare deducted from my card
 
 Objects	(nouns) - class	|  Messages (verbs) - methods
 card                        deducted
+
+####################################################################
+
+In order to get through the barriers.
+As a customer
+I need to touch in and out.
+
+Objects	(nouns) - class	|  Messages (verbs) - methods
+card                      in_journey?
+                          touch_in
+                          touch_out 
