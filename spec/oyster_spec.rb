@@ -1,7 +1,10 @@
 require 'oyster.rb'
 
 describe Oystercard do
-  let(:station){ double :station }
+  let(:entry_station){ double :station }
+  let(:exit_station){ double :station }
+
+
   it 'Test if card responds to balance method' do
     expect(subject).to respond_to(:balance)
   end
@@ -48,15 +51,15 @@ describe Oystercard do
     end
     xit 'it knows if card is in use' do
       subject.top_up(1)
-      expect(subject.touch_in(station)).to eq(true)
+      expect(subject.touch_in(entry_station)).to eq(true)
     end
     it 'does not allow to touch in if balance less than £1' do
-      expect{ subject.touch_in(station) }.to raise_error("please top up card")
+      expect{ subject.touch_in(entry_station) }.to raise_error("please top up card")
     end
     it "remember the first station" do
       subject.top_up(5)
-      subject.touch_in(station) #double
-        expect(subject.entry_station).to eq station
+      subject.touch_in(entry_station) #double
+        expect(subject.entry_station).to eq entry_station
     end
   end
 
@@ -66,40 +69,41 @@ describe Oystercard do
     end
     it 'it knows if card has been touch_out' do
       card = Oystercard.new
-      expect(card.touch_out(station)).to eq(station)
+      expect(card.touch_out(exit_station)).to eq([{:entry_station => station}, {:exit_station => station}])
     end
     it 'charge the fair' do
       card = Oystercard.new
       card.top_up(4)
-      card.touch_in(station)
-      expect { card.touch_out(station) }.to change { card.balance }. by(-Oystercard::FAIR)
+      card.touch_in(entry_station)
+      expect { card.touch_out(exit_station) }.to change { card.balance }. by(-Oystercard::FARE)
   end
   end
   #  Write a test that uses expect {}.to change{}.by() syntax to check that a charge is made on touch out.
 
   context 'use instance variable to know if your in a journey or not' do
     it 'reads if a card has been touched in or out' do
-      expect(subject.instance_variable_get :@injourney).to eq(false)
+      expect(subject.instance_variable_get :@injourney).to eq(nil)
     end
   end
   context 'knows if the card is in the journey or not' do
     it 'touch in' do
     card = Oystercard.new
     card.top_up(1)
-    card.touch_in(station)
+    card.touch_in(entry_station)
     expect(card.in_journey?).to eq(true)
    end
     it 'touch out' do
       card = Oystercard.new
-      card.touch_out(station)
+      card.touch_out(exit_station)
         expect(card.in_journey?).to eq(false)
     end
     it "remember the first station" do
       subject.top_up(5)
-      subject.touch_in(station)
-      subject.touch_out(station)
-        expect(subject.exit_station).to eq station
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.exit_station).to eq([{:entry_station => :station}, {:exit_station => :station}])
     end
+
   end
 
 end
