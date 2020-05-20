@@ -66,7 +66,7 @@ describe Oystercard do
     end
     it 'it knows if card has been touch_out' do
       card = Oystercard.new
-      expect(card.touch_out).to eq(false)
+      expect(card.touch_out).to eq(nil)
     end
     it 'charge the fair' do
       card = Oystercard.new
@@ -83,12 +83,12 @@ describe Oystercard do
     end
   end
   context 'knows if the card is in the journey or not' do
-   #  it 'touch in' do
-   #  card = Oystercard.new
-   #  card.top_up(1)
-   #  card.touch_in(station)
-   #    expect(card.in_journey?).to eq(true)
-   # end
+    it 'touch in' do
+    card = Oystercard.new
+    card.top_up(1)
+    card.touch_in(station)
+    expect(card.in_journey?).to eq(true)
+   end
     it 'touch out' do
       card = Oystercard.new
       card.touch_out
