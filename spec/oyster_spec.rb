@@ -66,13 +66,13 @@ describe Oystercard do
     end
     it 'it knows if card has been touch_out' do
       card = Oystercard.new
-      expect(card.touch_out).to eq(nil)
+      expect(card.touch_out(station)).to eq(station)
     end
     it 'charge the fair' do
       card = Oystercard.new
       card.top_up(4)
       card.touch_in(station)
-      expect { card.touch_out }.to change { card.balance }. by(-Oystercard::FAIR)
+      expect { card.touch_out(station) }.to change { card.balance }. by(-Oystercard::FAIR)
   end
   end
   #  Write a test that uses expect {}.to change{}.by() syntax to check that a charge is made on touch out.
@@ -91,8 +91,14 @@ describe Oystercard do
    end
     it 'touch out' do
       card = Oystercard.new
-      card.touch_out
+      card.touch_out(station)
         expect(card.in_journey?).to eq(false)
+    end
+    it "remember the first station" do
+      subject.top_up(5)
+      subject.touch_in(station)
+      subject.touch_out(station)
+        expect(subject.exit_station).to eq station
     end
   end
 

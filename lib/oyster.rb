@@ -1,10 +1,10 @@
 class Oystercard
 
-  attr_reader :balance, :entry_station
+  attr_reader :balance, :entry_station, :exit_station
   DEFAULT_BALANCE_VALUE = 0
   MAXBALANCE = 90
   MINBALANCE = 1
-  FAIR = 1 #min charge
+  FARE = 1 #min charge
 
   def initialize(default_balance = DEFAULT_BALANCE_VALUE)
     @balance = default_balance
@@ -32,9 +32,10 @@ class Oystercard
     @entry_station
   end
 
-  def touch_out
-    deduct(FAIR)
+  def touch_out(exit_station)
+    deduct(FARE)
     @entry_station = nil
+    @exit_station = exit_station
   end
 
 
