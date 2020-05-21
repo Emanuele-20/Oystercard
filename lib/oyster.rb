@@ -29,14 +29,15 @@ class Oystercard
   def touch_in(entry_station)
     fail "please top up card" if @balance < MINBALANCE
     @entry_station = entry_station
-    journeys.push({ :entry_station => entry_station})
+    #journeys.push({ :entry_station => entry_station})
   end
 
   def touch_out(exit_station)
     deduct(FARE)
-    @entry_station = nil
     @exit_station = exit_station
-    @journeys.push({ :exit_station => exit_station})
+    #@journeys.push({ :exit_station => exit_station})
+    @journeys.push({ :entry_station => @entry_station, :exit_station => @exit_station })
+    @entry_station = nil
     p @journeys
   end
 
