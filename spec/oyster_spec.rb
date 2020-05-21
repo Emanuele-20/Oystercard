@@ -8,7 +8,9 @@ describe Oystercard do
   it 'Test if card responds to balance method' do
     expect(subject).to respond_to(:balance)
   end
-
+  it 'checks that the card has an empty list of journeys by default' do
+    expect(subject.instance_variable_get :@journey).to eq (nil)
+  end
   context '#balance' do
     it 'returns default value of 0' do
       expect(subject.balance).to eq(0)
@@ -38,6 +40,7 @@ describe Oystercard do
   end
 
    end
+# Write a test that checks that the card has an empty list of journeys by default
 
   context 'in_journey?' do
     it 'knows of a card is currently in use' do
@@ -67,9 +70,10 @@ describe Oystercard do
     it 'allows a card to touch out' do
       expect(subject).to respond_to(:touch_out)
     end
-    it 'it knows if card has been touch_out' do
-      card = Oystercard.new
-      expect(card.touch_out(exit_station)).to eq([{:entry_station => station}, {:exit_station => station}])
+    it 'Track entry / exit station' do
+      card = Oystercard.new(10)
+      card.touch_in(entry_station)
+      expect(card.touch_out(exit_station)).to eq([{:entry_station => entry_station, :exit_station => exit_station}])
     end
     it 'charge the fair' do
       card = Oystercard.new
