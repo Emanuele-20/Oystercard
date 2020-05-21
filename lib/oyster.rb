@@ -29,8 +29,7 @@ class Oystercard
 
   def touch_out(exit_station)
     deduct(FARE)
-    @exit_station = exit_station
-    @journeys.push({ :entry_station => @entry_station, :exit_station => @exit_station })
+    @journeys.push({ :entry_station => @entry_station, :exit_station => exit_station })
     @entry_station = nil
   end
 
