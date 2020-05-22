@@ -1,7 +1,9 @@
 # oystercard
 
-oc = `oystercard.new
-oc.top_up(10)
-oc.touch_in("Brixton")
-oc.touch_out("Victoria")
-oc.journey_history
+
+
+Plan:
+Write up a plan for how you will interact with your code and manually test in IRB
+
+c1 = Oystercard.new(10)
+c1.station
