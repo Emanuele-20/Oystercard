@@ -59,11 +59,6 @@ describe Oystercard do
     it 'does not allow to touch in if balance less than £1' do
       expect{ subject.touch_in(entry_station) }.to raise_error("please top up card")
     end
-    it "remember the first station" do
-      subject.top_up(5)
-      subject.touch_in(entry_station) #double
-        expect(subject.entry_station).to eq entry_station
-    end
   end
 
   context 'able to touch out' do
@@ -92,13 +87,13 @@ describe Oystercard do
     end
   end
   context 'knows if the card is in the journey or not' do
-    it 'touch in' do
+    xit 'touch in' do
     card = Oystercard.new
     card.top_up(1)
     card.touch_in(entry_station)
     expect(card.in_journey?).to eq(true)
    end
-    it 'touch out' do
+    xit 'touch out' do
       card = Oystercard.new
       card.touch_out(exit_station)
         expect(card.in_journey?).to eq(false)
