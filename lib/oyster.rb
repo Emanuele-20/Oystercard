@@ -4,7 +4,7 @@ class Oystercard
   DEFAULT_BALANCE_VALUE = 0
   MAXBALANCE = 90
   MINBALANCE = 1
-  FARE = 1 
+  FARE = 1
 
   def initialize(default_balance = DEFAULT_BALANCE_VALUE)
     @balance = default_balance
@@ -19,11 +19,14 @@ class Oystercard
   end
 
   def in_journey?
-    !!@entry_station
+    Journey.complete?
   end
 
   def touch_in(entry_station)
     fail "please top up card" if @balance < MINBALANCE
+
+    @current_journey = Journey.new(entry_station)
+
     @entry_station = entry_station
   end
 
@@ -37,6 +40,28 @@ class Oystercard
 
   def deduct(deduct_value)
     @balance -= deduct_value
+  end
+
+
+end
+
+class Journey
+
+  def initialize(entry_station)
+    @entry_station = entry_station
+
+  end
+
+  def complete?
+    !!@entry_station
+  end
+
+  def end_journey
+
+  end
+
+  def calculate_fare
+
   end
 
 
